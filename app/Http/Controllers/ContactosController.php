@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contactos;
-use App\Http\Requests\StoreContactosRequest;
-use App\Http\Requests\UpdateContactosRequest;
+use Illuminate\Http\Request;
 
 class ContactosController extends Controller
 {
@@ -17,6 +16,40 @@ class ContactosController extends Controller
         return response()->json([
             'data' => $contactos,
             'total' => $total
+        ]);
+    }
+
+    public function show( Contactos $contacto )
+    {
+        return response()->json([
+            'data' => $contacto
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $new = new Contactos();
+        $new->nombre = $request->nombre;
+        $new->correo = $request->correo;
+        $new->imagen = $request->imagen;
+        $new->save();
+
+        return response()->json([
+            'data' => $new,
+            'message' => "Estudiante Creado con exito",
+        ]);
+    }
+
+    public function update(Request $request, Contactos $contacto)
+    {
+        $contacto->nombre = $request->nombre;
+        $contacto->correo = $request->correo;
+        $contacto->imagen = $request->imagen;
+        $contacto->save();
+
+        return response()->json([
+            'data' => $contacto,
+            'message' => "Estudiante Editado con exito",
         ]);
     }
 
